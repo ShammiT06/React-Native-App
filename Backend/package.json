@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev":"nodemon src/main.js"
+    "dev": "nodemon src/main.js"
   },
   "keywords": [],
   "type": "module",
@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cron": "^4.3.3",
     "express": "^5.1.0"
   },
   "devDependencies": {
