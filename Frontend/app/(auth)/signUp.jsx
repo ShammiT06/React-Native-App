@@ -5,51 +5,27 @@ import { Ionicons } from "@expo/vector-icons";
 import COLORS from "../../constants/Colours.js";
 import { useRouter } from "expo-router"
 import axios from "axios"
+import useAuthStore from "../../store/authStore.js";
 
 function Signup() {
     const [email, setEmail] = useState("")
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
     const [isPassword, setIsPassword] = useState(false)
 
     const router = useRouter()
-    async function handleRegister()
-    {
-        setIsLoading(true)
-        try {
-            const response = await fetch('https://react-native-app-u6yo.onrender.com/api/auth/register',{
-                method:"POST",
-                headers:{
-                    'Content-Type':"application/json"
-                },
-                body:JSON.stringify({
-                    username:name,
-                    email:email,
-                    password:password
-                })
-            })
 
-            const value = await response.json()
-
-            if(!response.ok)
-            {
-                Alert.alert("Register Failed",value.message)
-            }
+    const { isLoading, register,user,token,logout} = useAuthStore()
 
 
-            Alert.alert("Success","Register Successfull")
-            setEmail("")
-            setName("")
-            setPassword("")
-            setIsLoading(false)
-            
-        } catch (error) {
-            console.error("Error",error)
-            setIsLoading(false)
-            Alert.alert("Falied","Internal Server Error")
-            
-        }
+
+    async function handleRegister() {
+        register(name,email,password)
+        console.log("The user is:",user)
+        console.log("The token is:",token)
+
+
+
     }
 
 
@@ -117,7 +93,7 @@ function Signup() {
                                     style={styles.input}
                                     placeholder="Enter Your Password"
                                     placeholderTextColor={COLORS.placeholderText}
-                                    keyboardType="number-pad"
+                                    keyboardType="default"
                                     secureTextEntry={!isPassword}
                                     value={password}
                                     onChangeText={setPassword} />
