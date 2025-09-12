@@ -10,7 +10,7 @@ const router = express.Router()
 
 
 const generateToken = (user_id)=>{
-  return  jwt.sign({user_id},process.env.JWT_TOKEN,{expiresIn:"15d"})
+  return  jwt.sign({user_id},process.env.JWT_TOKEN,{expiresIn:"20d"})
 
 }
 
