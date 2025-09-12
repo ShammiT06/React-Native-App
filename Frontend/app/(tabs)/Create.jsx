@@ -19,7 +19,7 @@ import useAuthStore from "../../store/authStore";
 
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import { API_URL } from "../../constants/api";
+import { API_URL_KEY } from "../../constants/api";
 
 export default function Create() {
   const [title, setTitle] = useState("");
@@ -93,9 +93,9 @@ export default function Create() {
 
       const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
 
-      console.log("Sending request to:", `${API_URL}/book`);
+      console.log("Sending request to:", `${API_URL_KEY}/book`);
 
-      const response = await fetch(`${API_URL}/book`, {
+      const response = await fetch(`${API_URL_KEYL}/book`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${cleanToken}`,
