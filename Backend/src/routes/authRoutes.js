@@ -14,50 +14,44 @@ const generateToken = (user_id)=>{
 
 }
 
-router.post("/login",async (req,res)=>{
- try {
-        const {email,password}=req.body
-        console.log(email,password)
-        if(!email || !password)
-        { 
-            return res.status(400).json({message:"All fields are required"})
-        }
-        const user = await User.findOne({email})
-        if(!user)
-        {
-            return res.status(400).json({message:"Invalid Credentials"})
-        }
-        
-        const isPassword = await user.comparePassword(String(password))
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    console.log("Login attempt:", email, password);
 
-        if(!isPassword)
-        {
-            return res.status(400).json({message:"Invalid Credentials"})
-        }
-
-        const token = generateToken(user._id)
-
-
-      const data = res.status(200).json({
-            token,
-            user: {
-                id:user._id,
-                username:user.username,
-                profileImage:user.profileImage,
-                userEmail:user.email
-
-            }
-
-        })
-        
-    } catch (error) {
-        console.log("Something Went Wrong",error)
-        return res.status(500).json({message:"Internal Server Error"})
-
-        
+    if (!email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-})
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
+
+    const isPassword = await user.comparePassword(String(password));
+    if (!isPassword) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
+
+    const token = generateToken(user._id);
+
+    return res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        profileImage: user.profileImage,
+        userEmail: user.email
+      }
+    });
+
+  } catch (error) {
+    console.error("Something Went Wrong:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 
 
 router.post("/register", async (req,res)=>{

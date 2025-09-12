@@ -1,3 +1,3 @@
-const API_URL_KEY="https://react-native-app-8i9n.onrender.com/api" 
+const API_URL_KEY="http://localhost:5000/api" 
 
 export {API_URL_KEY}

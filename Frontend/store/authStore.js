@@ -39,38 +39,46 @@ const useAuthStore = create((set) => ({
             set({ isLoading: false })
         }
     },
+login: async (userName, password) => {
+  set({ isLoading: true });
+  try {
+    const response = await fetch(`${API_URL_KEY}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: userName,
+        password: password
+      })
+    });
 
-    login: async (userName, password) => {
+    // Get raw response (for debugging & safe JSON parsing)
+    const text = await response.text();
+    console.log("Raw response:", text);
 
-        set({ isLoading: true })
-        try {
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      throw new Error("Server did not return valid JSON");
+    }
 
-            const response = await fetch("https://react-native-app-u6yo.onrender.com/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email: userName,
-                    password: password
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong");
+    }
 
-                })
-            })
-            const data = await response.json()
-            if (!response.ok) {
-                throw new Error(data.message || "Something Went Wrong");
-            }
-            await AsyncStorage.setItem("user", JSON.stringify(data.user))
-            await AsyncStorage.setItem("token", data.token)
-            set({ user: data.user, token: data.token, isLoading: false })
-            return ({ success: true })
+    await AsyncStorage.setItem("user", JSON.stringify(data.user));
+    await AsyncStorage.setItem("token", data.token);
 
+    set({ user: data.user, token: data.token, isLoading: false });
+    return { success: true };
 
-        } catch (error) {
-            console.error("There is an Error", error)
-            set({ isLoading: false })
-        }
-
+  } catch (error) {
+    console.error("There is an Error:", error.message);
+    set({ isLoading: false });
+    return { success: false, message: error.message };
+  }
     },
     create: async () => {
         isLoading(true)
@@ -86,8 +94,7 @@ const useAuthStore = create((set) => ({
 
         } catch (error) {
 
-        }
-
+      }
     },
 
     checkAuth: async () => {

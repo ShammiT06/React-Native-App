@@ -21,7 +21,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { API_URL_KEY } from "../../constants/api";
 
-export default function Create() {
+ function Create() {
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
   const [rating, setRating] = useState(3);
@@ -95,7 +95,7 @@ export default function Create() {
 
       console.log("Sending request to:", `${API_URL_KEY}/book`);
 
-      const response = await fetch(`${API_URL_KEYL}/book`, {
+      const response = await fetch(`${API_URL_KEY}/book`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${cleanToken}`,
@@ -235,3 +235,6 @@ export default function Create() {
     </KeyboardAvoidingView>
   );
 }
+
+
+export default Create

@@ -1,5 +1,3 @@
-import { View, Text } from 'react-native'
-import React from 'react'
 import {Tabs} from "expo-router"
 import { Ionicons } from "@expo/vector-icons"
 import COLORS from '../../constants/Colours'
@@ -34,11 +32,11 @@ export default function TabLayout() {
             )
           
          }} />
-         <Tabs.Screen name='Create' options={{
+         <Tabs.Screen name="Create" options={{
             title:"Create",
-            tabBarIcon:({size,color})=>(
-                <Ionicons name='create-outline' size={size} color={color} />
-            )
+            tabBarIcon:({size,color})=>{
+                <Ionicons name="create-outline" size={size} color={color} />
+            }
          }} />
         <Tabs.Screen name='Profile' options={{
             title:"Profile",
