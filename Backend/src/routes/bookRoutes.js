@@ -6,7 +6,7 @@ import protectedRoute from "./middlewares/auth.middleware.js"
 const bookRouter = express.Router()
 
 
-bookRouter.post("/", protectedRoute, async function (req, res) {
+bookRouter.post("/", async function (req, res) {
     try {
         const { title, rating, image, caption } = req.body
 
