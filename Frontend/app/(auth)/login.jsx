@@ -12,22 +12,14 @@ const Login = () => {
     const [userName, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [ShowPassword, setShowPassword] = useState(false)
-    const { user, token, login,isLoading,authCheck,logout } = useAuthStore()
-
-
-    useEffect(()=>{
-        authCheck()
-
-    },[])
+    const {login,isLoading} = useAuthStore()
 
     async function handleLogin() {
         const result = await login(userName, password)
 
         if (!result.success) {
             Alert.alert("Error",result.error)
-
         }
-
         Alert.alert("Success","User Logged In Successfull")
     }    
 
@@ -114,10 +106,6 @@ const Login = () => {
                                                 <Link href={"/(auth)/signUp"} style={styles.link}>Sign Up</Link>
                                             </TouchableOpacity>
                                         </View>
-                                        <Text>Hello {user?.username}</Text>
-                                        <TouchableOpacity onPress={logout}>
-                                            <Text>Logout</Text>
-                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>

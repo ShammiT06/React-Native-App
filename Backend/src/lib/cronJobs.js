@@ -1,20 +1,28 @@
-import crons from "cron"
-import https from "https"
+import crons from "cron";
+import axios from "axios";
 
+const job = new crons.CronJob("*/14 * * * *", async () => {
+  console.log("⏰ Cron job running...");
 
-const job = new crons.CronJob("*/14 * * * *",()=>{
-    https.get(process.env.API_URL,(res)=>{
-        if(res.statusCode === 200)
-        {
-            console.log("Request sent Successfully")
-        }
-        else
-        {
-            console.log("Error while sending Request")
-        }
-    }).on("error",(e)=>{
-        console.error("Error",e)
-    })
-})
+  try {
+    const url = process.env.API_URL;
+    console.log("API URL =>", url);
 
-export default job
+    const response = await axios.get(url);
+
+    if (response.status === 200) {
+      console.log("✅ Request sent successfully:", response.status);
+    } else {
+      console.log("❌ Error while sending request:", response.status, response.statusText);
+    }
+  } catch (error) {
+    if (error.response) {
+      console.error("🔥 Server Error:", error.response.status, error.response.statusText);
+    } 
+    else {
+      console.error("❌ Request setup error:", error.message);
+    }
+  }
+});
+
+export default job;
